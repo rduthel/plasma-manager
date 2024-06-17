@@ -114,7 +114,7 @@ in
       '';
     };
 
-    lookAndFeelResetLayout = lib.mkOption {
+    resetLayout = lib.mkOption {
       type = lib.types.bool;
       default = false;
       description = ''
@@ -215,7 +215,7 @@ in
       text = ''
         ${if cfg.workspace.lookAndFeel != null then
           "plasma-apply-lookandfeel -a ${cfg.workspace.lookAndFeel}" +
-            (if cfg.workspace.lookAndFeelResetLayout != null then " --resetLayout" else "")
+            (if cfg.workspace.resetLayout != null then " --resetLayout" else "")
           else ""}
         ${if cfg.workspace.theme != null then "plasma-apply-desktoptheme ${cfg.workspace.theme}" else ""}
         ${if (cfg.workspace.cursor != null && cfg.workspace.cursor.theme != null) then
