@@ -114,6 +114,14 @@ in
       '';
     };
 
+    lookAndFeelResetLayout = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        The Plasma look and feel theme option to completely apply the theme.
+      '';
+    };
+
     iconTheme = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = null;
@@ -205,7 +213,10 @@ in
     # granted all the commands succeed (until we change the settings again).
     programs.plasma.startup.startupScript."apply_themes" = (lib.mkIf anyThemeSet {
       text = ''
-        ${if cfg.workspace.lookAndFeel != null then "plasma-apply-lookandfeel -a ${cfg.workspace.lookAndFeel}" else ""}
+        ${if cfg.workspace.lookAndFeel != null then
+          "plasma-apply-lookandfeel -a ${cfg.workspace.lookAndFeel}" +
+            (if cfg.workspace.lookAndFeelResetLayout != null then " --resetLayout" else "")
+          else ""}
         ${if cfg.workspace.theme != null then "plasma-apply-desktoptheme ${cfg.workspace.theme}" else ""}
         ${if (cfg.workspace.cursor != null && cfg.workspace.cursor.theme != null) then
           "plasma-apply-cursortheme ${cfg.workspace.cursor.theme}" +
